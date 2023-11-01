@@ -11,7 +11,7 @@ website:
   repo-actions: [source]
 
   page-footer:
-    right: "This page is built with ❤️ and [Quarto](https://quarto.org/)."
+    right: "This page is built with 1s and 0s and [Quarto](https://quarto.org/)."
     left: "&copy; CC-Nick Hand, 2023"
 
   sidebar:
