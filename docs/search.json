@@ -18,7 +18,7 @@
     "href": "index.html#overview-of-python-package-experience",
     "title": "Trevor Kapuvari’s Python Page",
     "section": "Overview of Python Package Experience",
-    "text": "Overview of Python Package Experience\nGeneral: Pandas, Geopandas Visualization: Matploblib, Altair, Seaborn, Datashader Webscrapping: Selenium, BeautifulSoup, Requests Geospatial Analysis: Cenpy, Pygris, OSMnx Predictive Modelling: Huggingface, scikit-learn, RandomForest"
+    "text": "Overview of Python Package Experience\n\nGeneral: Pandas, Geopandas\nVisualization: Matploblib, Altair, Seaborn, Datashader\nWebscrapping: Selenium, BeautifulSoup, Requests\nGeospatial Analysis: Cenpy, Pygris, OSMnx\nPredictive Modelling: Huggingface, scikit-learn, RandomForest"
   },
   {
     "objectID": "analysis/RFvsSKL.html",
@@ -81,7 +81,7 @@
     "href": "about.html",
     "title": "About me",
     "section": "",
-    "text": "On this about page, you might want to add more information about yourself, the project, or course. Any helpful context could go here!\nMy name is Nick Hand, the instructor for the course. You can find more information about me on my personal website.\nThis site is an example site showing how to use Quarto for the final project for MUSA 550, during fall 2023.\nAdipisicing proident minim non non dolor quis. Pariatur in ipsum aliquip magna. Qui ad aliqua nulla excepteur dolor nostrud quis nisi. Occaecat proident eiusmod in cupidatat. Elit qui laboris sit aliquip proident dolore. Officia commodo commodo in eiusmod aliqua sint cupidatat consectetur aliqua sint reprehenderit.\nOccaecat incididunt esse et elit adipisicing sit est cupidatat consequat. Incididunt exercitation amet dolor non sit anim veniam veniam sint velit. Labore irure reprehenderit ut esse. Minim quis commodo nisi voluptate."
+    "text": "Dedicated public service professional with 4+ years of experience in GIS and urban planning. Skilled in machine learning, data & policy analysis, visualization, cloud computing, database management, and financial modelling. Passions include real estate, sustainability, and transportation.\nI’m passionate about geospatial science, machine learning, and mapping. My favorite tools are ArcGIS, R, and Python. I’m pursuing a Masters of Urban Spatial Analytics at the University of Pennsylvania’s Weitzman School of Design. In previous years, I worked as an urban planner-aide and GIS analyst for local governments and developed data visualizations."
   },
   {
     "objectID": "analysis/assignment-5.html",
