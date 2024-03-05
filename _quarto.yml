@@ -15,7 +15,7 @@ website:
     left: "&copy; CC-Trevor Kapuvari, 2024"
 
   sidebar:
-    logo: "images/course-icon.png"
+    logo: "images/Python.png"
     pinned: true
     align: center
     tools: 
