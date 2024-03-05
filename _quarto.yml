@@ -27,7 +27,7 @@ website:
         text: "MUSA 550 GitHub"
       - icon: twitter
         href: https://twitter.com/nicholashand
-        text: "Nick Hand Twitter"         
+        text: "Trevor Kapuvari"         
 
     style: "docked"
     search: true
@@ -38,10 +38,11 @@ website:
       - about.qmd
       - section: analysis/index.qmd
         contents:
-          - analysis/1-python-code-blocks.qmd 
-          - analysis/2-static-images.ipynb
-          - analysis/3-altair-hvplot.ipynb
-          - analysis/4-folium.ipynb
+          - analysis/Assignment2Kapuvari.ipynb
+          - analysis/assignment-5.ipynb
+          - analysis/evictions.ipynb
+          - analysis/predictionmodelling.ipynb
+          - analysis/streetsandwebscrap.ipynb
 
 format:
   html:
