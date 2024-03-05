@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Trevor Kapuvari Python Demonstrations - Assignment 2</title>
+<title>Trevor Kapuvari Python Demonstrations - Visualization Basics | Seaborn, Matploblib, Altair</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -109,7 +109,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../analysis/index.html">Analysis</a></li><li class="breadcrumb-item"><a href="../analysis/Assignment2Kapuvari.html">Assignment 2</a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../analysis/index.html">Analysis</a></li><li class="breadcrumb-item"><a href="../analysis/Assignment2Kapuvari.html">Visualization Basics | Seaborn, Matploblib, Altair</a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -162,31 +162,31 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../analysis/Assignment2Kapuvari.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Assignment 2</span></a>
+ <span class="menu-text">Visualization Basics | Seaborn, Matploblib, Altair</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../analysis/assignment-5.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Solutions for Assignment 5: Exploring Yelp Reviews in Philadelphia</span></a>
+ <span class="menu-text">Exploring Yelp Reviews in Philadelphia</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../analysis/evictions.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Assignment 3</span></a>
+ <span class="menu-text">Exploring Evictions and Code Violations in Philadelphia</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../analysis/predictionmodelling.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Assignment 6: Predictive Modeling of Housing Prices in Philadelphia</span></a>
+ <span class="menu-text">Predictive Modeling of Housing Prices in Philadelphia</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../analysis/streetsandwebscrap.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Assignment 4: Street Networks &amp; Web Scraping</span></a>
+ <span class="menu-text">Street Networks &amp; Web Scraping</span></a>
   </div>
 </li>
       </ul>
@@ -201,8 +201,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#assignment-2" id="toc-assignment-2" class="nav-link active" data-scroll-target="#assignment-2">Assignment 2</a></li>
-  <li><a href="#importing-libraries" id="toc-importing-libraries" class="nav-link" data-scroll-target="#importing-libraries">Importing Libraries</a>
+  <li><a href="#importing-libraries" id="toc-importing-libraries" class="nav-link active" data-scroll-target="#importing-libraries">Importing Libraries</a>
   <ul class="collapse">
   <li><a href="#data-wrangling-and-database-framing" id="toc-data-wrangling-and-database-framing" class="nav-link" data-scroll-target="#data-wrangling-and-database-framing">Data Wrangling and Database Framing</a>
   <ul class="collapse">
@@ -230,14 +229,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#population-pyramid-of-planet-x" id="toc-population-pyramid-of-planet-x" class="nav-link" data-scroll-target="#population-pyramid-of-planet-x">Population Pyramid of Planet X</a></li>
   </ul></li>
   </ul>
-<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/MUSA-550-Fall-2023/quarto-website-starter/blob/main/analysis/Assignment2Kapuvari.ipynb" class="toc-action">View source</a></p></div></div></nav>
+<div class="toc-actions"><div><i class="bi bi-git"></i></div><div class="action-links"><p><a href="https://Quarto-Python-Website/quarto-website-starter/blob/main/analysis/Assignment2Kapuvari.ipynb" class="toc-action">View source</a></p></div></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Assignment 2</h1>
+<h1 class="title">Visualization Basics | Seaborn, Matploblib, Altair</h1>
 </div>
 
 
@@ -253,10 +252,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 <p>Trevor Kapuvari Voter Turnout 2018</p>
-<section id="assignment-2" class="level2">
-<h2 class="anchored" data-anchor-id="assignment-2">Assignment 2</h2>
-<p>Trevor Kapuvari Voter Turnout 2018</p>
-</section>
 <section id="importing-libraries" class="level1">
 <h1>Importing Libraries</h1>
 <div class="cell" data-tags="[]" data-execution_count="1">
