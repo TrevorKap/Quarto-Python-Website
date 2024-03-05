@@ -14,11 +14,11 @@ My other projects & experience can be found [on my Portfolio](https://trevorkap.
 
 ## Overview of Python Package Experience
 
-General: Pandas, Geopandas
-Visualization: Matploblib, Altair, Seaborn, Datashader
-Webscrapping: Selenium, BeautifulSoup, Requests
-Geospatial Analysis: Cenpy, Pygris, OSMnx
-Predictive Modelling: Huggingface, scikit-learn, RandomForest
+* General: Pandas, Geopandas
+* Visualization: Matploblib, Altair, Seaborn, Datashader
+* Webscrapping: Selenium, BeautifulSoup, Requests
+* Geospatial Analysis: Cenpy, Pygris, OSMnx
+* Predictive Modelling: Huggingface, scikit-learn, RandomForest
 
 
 
