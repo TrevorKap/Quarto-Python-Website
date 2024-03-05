@@ -40,6 +40,7 @@ website:
           - analysis/evictions.ipynb
           - analysis/predictionmodelling.ipynb
           - analysis/streetsandwebscrap.ipynb
+          - analysis/RFvsSKL.ipynb
 
 format:
   html:
