@@ -1,31 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://musa-550-fall-2023.github.io/quarto-website-starter/about.html</loc>
-    <lastmod>2023-10-29T00:15:01.667Z</lastmod>
+    <loc>https://musa-550-fall-2023.github.io/quarto-website-starter/index.html</loc>
+    <lastmod>2024-03-05T16:38:46.968Z</lastmod>
   </url>
   <url>
-    <loc>https://musa-550-fall-2023.github.io/quarto-website-starter/analysis/4-folium.html</loc>
-    <lastmod>2023-10-29T01:33:31.641Z</lastmod>
+    <loc>https://musa-550-fall-2023.github.io/quarto-website-starter/analysis/predictionmodelling.html</loc>
+    <lastmod>2024-03-05T16:38:38.335Z</lastmod>
+  </url>
+  <url>
+    <loc>https://musa-550-fall-2023.github.io/quarto-website-starter/analysis/evictions.html</loc>
+    <lastmod>2024-03-05T16:38:34.750Z</lastmod>
+  </url>
+  <url>
+    <loc>https://musa-550-fall-2023.github.io/quarto-website-starter/analysis/assignment-5.html</loc>
+    <lastmod>2024-03-05T16:38:25.660Z</lastmod>
+  </url>
+  <url>
+    <loc>https://musa-550-fall-2023.github.io/quarto-website-starter/about.html</loc>
+    <lastmod>2024-03-05T16:38:11.760Z</lastmod>
   </url>
   <url>
     <loc>https://musa-550-fall-2023.github.io/quarto-website-starter/analysis/1-python-code-blocks.html</loc>
-    <lastmod>2023-10-29T01:07:22.941Z</lastmod>
+    <lastmod>2024-03-05T16:38:23.808Z</lastmod>
   </url>
   <url>
-    <loc>https://musa-550-fall-2023.github.io/quarto-website-starter/analysis/3-altair-hvplot.html</loc>
-    <lastmod>2023-10-29T01:33:25.030Z</lastmod>
+    <loc>https://musa-550-fall-2023.github.io/quarto-website-starter/analysis/Assignment2Kapuvari.html</loc>
+    <lastmod>2024-03-05T16:38:26.903Z</lastmod>
   </url>
   <url>
     <loc>https://musa-550-fall-2023.github.io/quarto-website-starter/analysis/index.html</loc>
-    <lastmod>2023-10-29T01:37:09.767Z</lastmod>
+    <lastmod>2024-03-05T16:38:35.470Z</lastmod>
   </url>
   <url>
-    <loc>https://musa-550-fall-2023.github.io/quarto-website-starter/analysis/2-static-images.html</loc>
-    <lastmod>2023-10-29T01:07:58.310Z</lastmod>
-  </url>
-  <url>
-    <loc>https://musa-550-fall-2023.github.io/quarto-website-starter/index.html</loc>
-    <lastmod>2023-10-29T00:21:05.439Z</lastmod>
+    <loc>https://musa-550-fall-2023.github.io/quarto-website-starter/analysis/streetsandwebscrap.html</loc>
+    <lastmod>2024-03-05T16:38:46.295Z</lastmod>
   </url>
 </urlset>
