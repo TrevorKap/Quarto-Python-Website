@@ -5,29 +5,26 @@ project:
     port: 3333
 
 website:
-  title: "MUSA 550 Quarto Template"
+  title: "Trevor Kapuvari Python Demonstrations"
   site-url: "https://musa-550-fall-2023.github.io/quarto-website-starter" 
   repo-url: https://github.com/MUSA-550-Fall-2023/quarto-website-starter 
   repo-actions: [source]
 
   page-footer:
     right: "This page is built with 1s and 0s and [Quarto](https://quarto.org/)."
-    left: "&copy; CC-Nick Hand, 2023"
+    left: "&copy; CC-Trevor Kapuvari, 2024"
 
   sidebar:
     logo: "images/course-icon.png"
     pinned: true
     align: center
     tools: 
-      - icon: globe
-        href: https://nickhand.dev
-        text: "Personal Website"
+      - icon: linkedin
+        href: https://www.linkedin.com/in/trevor-kapuvari/
+        text: "LinkedIn"
       - icon: github
-        href: https://github.com/MUSA-550-Fall-2023/
-        text: "MUSA 550 GitHub"
-      - icon: twitter
-        href: https://twitter.com/nicholashand
-        text: "Trevor Kapuvari"         
+        href: https://github.com/TrevorKap
+        text: "GitHub Profile"
 
     style: "docked"
     search: true
