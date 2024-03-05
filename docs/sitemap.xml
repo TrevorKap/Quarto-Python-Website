@@ -2,38 +2,42 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://Quarto-Python-Website/quarto-website-starter/index.html</loc>
-    <lastmod>2024-03-05T17:13:11.902Z</lastmod>
+    <lastmod>2024-03-05T19:24:37.266Z</lastmod>
   </url>
   <url>
-    <loc>https://Quarto-Python-Website/quarto-website-starter/analysis/predictionmodelling.html</loc>
-    <lastmod>2024-03-05T17:13:02.764Z</lastmod>
-  </url>
-  <url>
-    <loc>https://Quarto-Python-Website/quarto-website-starter/analysis/evictions.html</loc>
-    <lastmod>2024-03-05T17:12:59.378Z</lastmod>
-  </url>
-  <url>
-    <loc>https://Quarto-Python-Website/quarto-website-starter/analysis/assignment-5.html</loc>
-    <lastmod>2024-03-05T17:12:50.500Z</lastmod>
-  </url>
-  <url>
-    <loc>https://Quarto-Python-Website/quarto-website-starter/about.html</loc>
-    <lastmod>2024-03-05T17:12:35.195Z</lastmod>
-  </url>
-  <url>
-    <loc>https://Quarto-Python-Website/quarto-website-starter/analysis/1-python-code-blocks.html</loc>
-    <lastmod>2024-03-05T17:12:48.679Z</lastmod>
-  </url>
-  <url>
-    <loc>https://Quarto-Python-Website/quarto-website-starter/analysis/Assignment2Kapuvari.html</loc>
-    <lastmod>2024-03-05T17:12:51.847Z</lastmod>
+    <loc>https://Quarto-Python-Website/quarto-website-starter/analysis/RFvsSKL.html</loc>
+    <lastmod>2024-03-05T19:24:26.779Z</lastmod>
   </url>
   <url>
     <loc>https://Quarto-Python-Website/quarto-website-starter/analysis/index.html</loc>
-    <lastmod>2024-03-05T17:13:00.128Z</lastmod>
+    <lastmod>2024-03-05T19:24:22.178Z</lastmod>
+  </url>
+  <url>
+    <loc>https://Quarto-Python-Website/quarto-website-starter/analysis/Assignment2Kapuvari.html</loc>
+    <lastmod>2024-03-05T19:24:11.265Z</lastmod>
+  </url>
+  <url>
+    <loc>https://Quarto-Python-Website/quarto-website-starter/analysis/1-python-code-blocks.html</loc>
+    <lastmod>2024-03-05T19:24:07.289Z</lastmod>
+  </url>
+  <url>
+    <loc>https://Quarto-Python-Website/quarto-website-starter/about.html</loc>
+    <lastmod>2024-03-05T19:23:21.095Z</lastmod>
+  </url>
+  <url>
+    <loc>https://Quarto-Python-Website/quarto-website-starter/analysis/assignment-5.html</loc>
+    <lastmod>2024-03-05T19:24:09.618Z</lastmod>
+  </url>
+  <url>
+    <loc>https://Quarto-Python-Website/quarto-website-starter/analysis/evictions.html</loc>
+    <lastmod>2024-03-05T19:24:21.138Z</lastmod>
+  </url>
+  <url>
+    <loc>https://Quarto-Python-Website/quarto-website-starter/analysis/predictionmodelling.html</loc>
+    <lastmod>2024-03-05T19:24:25.597Z</lastmod>
   </url>
   <url>
     <loc>https://Quarto-Python-Website/quarto-website-starter/analysis/streetsandwebscrap.html</loc>
-    <lastmod>2024-03-05T17:13:11.215Z</lastmod>
+    <lastmod>2024-03-05T19:24:36.327Z</lastmod>
   </url>
 </urlset>
