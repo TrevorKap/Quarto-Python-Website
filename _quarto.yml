@@ -6,8 +6,8 @@ project:
 
 website:
   title: "Trevor Kapuvari Python Demonstrations"
-  site-url: "https://musa-550-fall-2023.github.io/quarto-website-starter" 
-  repo-url: https://github.com/MUSA-550-Fall-2023/quarto-website-starter 
+  site-url: "https://Quarto-Python-Website/quarto-website-starter" 
+  repo-url: https://Quarto-Python-Website/quarto-website-starter 
   repo-actions: [source]
 
   page-footer:
