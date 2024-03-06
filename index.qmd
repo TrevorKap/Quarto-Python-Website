@@ -18,7 +18,8 @@ My other projects & experience can be found [on my Portfolio](https://trevorkap.
 * Visualization: Matploblib, Altair, Seaborn, Datashader
 * Webscrapping: Selenium, BeautifulSoup, Requests
 * Geospatial Analysis: Cenpy, Pygris, OSMnx
-* Predictive Modelling: Huggingface, scikit-learn, RandomForest
+* Machine Learning: scikit-learn, RandomForest
+* Artificial Intelligence: Huggingface, Tensorflow
 
 
 
