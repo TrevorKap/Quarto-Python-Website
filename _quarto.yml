@@ -49,6 +49,8 @@ website:
       - section: SpatialOptimization/index.qmd
         contents:
           - SpatialOptimization/pdispersion.py
+          - SpatialOptimization/p_median_with_pulp.ipynb
+          - SpatialOptimization/capacitatedPmedian.ipynb
 
 format:
   html:
