@@ -1,0 +1,1217 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Trevor Kapuvari Python Demonstrations - Analyzing Land Surface Temperature (LST) with Landsat 8 Data in Google Earth Engine</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+<script src="https://unpkg.com/@jupyter-widgets/html-manager@*/dist/embed-amd.js" crossorigin="anonymous"></script>
+
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-sidebar docked">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../RemoteSensing/index.html">Remote Sensing</a></li><li class="breadcrumb-item"><a href="../RemoteSensing/land_surface_temperature.html">Analyzing Land Surface Temperature (LST) with Landsat 8 Data in Google Earth Engine</a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-center sidebar-header">
+      <a href="../index.html" class="sidebar-logo-link">
+      <img src="../images/Python.png" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
+      </a>
+      <div class="sidebar-tools-main">
+    <a href="https://www.linkedin.com/in/trevor-kapuvari/" rel="" title="LinkedIn" class="quarto-navigation-tool px-1" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
+    <a href="https://github.com/TrevorKap" rel="" title="GitHub Profile" class="quarto-navigation-tool px-1" aria-label="GitHub Profile"><i class="bi bi-github"></i></a>
+</div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Welcome</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../about.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">About me</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../analysis/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Analysis</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../analysis/Assignment2Kapuvari.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Visualization Basics in Seaborn, Matploblib, Altair</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../analysis/assignment-5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Exploring Yelp Reviews in Philadelphia</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../analysis/evictions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Exploring Evictions and Code Violations in Philadelphia</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../analysis/predictionmodelling.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Predictive Modeling of Housing Prices in Philadelphia</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../analysis/streetsandwebscrap.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Street Networks &amp; Web Scraping</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../analysis/RFvsSKL.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Comparing RandomForest to Scikit-Learn</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../RemoteSensing/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Remote Sensing</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../RemoteSensing/national_landcover_supervised_classification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Machine Learning with Earth Engine - Supervised Classification</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../RemoteSensing/land_surface_temperature.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Analyzing Land Surface Temperature (LST) with Landsat 8 Data in Google Earth Engine</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../RemoteSensing/national_landcover_supervised_classification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Machine Learning with Earth Engine - Supervised Classification</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../SpatialOptimization/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Spatal Optimization</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../SpatialOptimization/p_median_with_pulp.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">P-Median with PULP</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../SpatialOptimization/capacitatedPmedian.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">capacitatedPmedian.html</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../SpatialOptimization/Knapsack_Example.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Knapsack_Example.html</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../SpatialOptimization/CoverageMatrix.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">CoverageMatrix.html</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#step-1-accessing-google-earth-engine" id="toc-step-1-accessing-google-earth-engine" class="nav-link active" data-scroll-target="#step-1-accessing-google-earth-engine">Step 1: Accessing Google Earth Engine</a></li>
+  <li><a href="#step-2-define-the-area-of-interest-aoi" id="toc-step-2-define-the-area-of-interest-aoi" class="nav-link" data-scroll-target="#step-2-define-the-area-of-interest-aoi">Step 2: Define the Area of Interest (AOI)</a></li>
+  <li><a href="#step-3-import-landsat-8-data" id="toc-step-3-import-landsat-8-data" class="nav-link" data-scroll-target="#step-3-import-landsat-8-data">Step 3: Import Landsat 8 Data</a></li>
+  <li><a href="#step-4-calculate-ndvi-proportion-of-vegetation-and-emissivity" id="toc-step-4-calculate-ndvi-proportion-of-vegetation-and-emissivity" class="nav-link" data-scroll-target="#step-4-calculate-ndvi-proportion-of-vegetation-and-emissivity">Step 4: Calculate NDVI, Proportion of Vegetation, and Emissivity</a></li>
+  <li><a href="#step-5-estimate-land-surface-temperature-lst" id="toc-step-5-estimate-land-surface-temperature-lst" class="nav-link" data-scroll-target="#step-5-estimate-land-surface-temperature-lst">Step 5: Estimate Land Surface Temperature (LST)</a></li>
+  <li><a href="#step-6-map-results-with-custom-title-and-legend" id="toc-step-6-map-results-with-custom-title-and-legend" class="nav-link" data-scroll-target="#step-6-map-results-with-custom-title-and-legend">Step 6: Map Results with Custom Title and Legend</a></li>
+  </ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/TrevorKap/Quarto-Python-Website/blob/main/RemoteSensing/land_surface_temperature.ipynb" class="toc-action">View source</a></p></div></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Analyzing Land Surface Temperature (LST) with Landsat 8 Data in Google Earth Engine</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<p>Note: this code is adapted from <a href="https://medium.com/@ridhomuh002/analyzing-land-surface-temperature-lst-with-landsat-8-data-in-google-earth-engine-f4dd7ca28e70">Muhammad Ridho’s excellent Medium tutorial</a>. I have converted his JavaScript code to Python using the <code>geemap</code> package, with only minor changes. I am quoting his writeup almost verbatim.</p>
+<p>This notebook is exclusively for educational purposes. All credit for the work goes to Muhammad.</p>
+<p>Land Surface Temperature (LST) is a crucial environmental parameter with applications ranging from climate change monitoring to urban planning and agriculture management. This summary provides a concise overview of how to calculate and analyze LST using Landsat 8 imagery and the powerful toolset of Google Earth Engine (GEE).</p>
+<p>Landsat 8, a satellite operated by the United States Geological Survey (USGS) and NASA, provides a wealth of multispectral data. Its thermal infrared band, known as the Thermal Infrared Sensor (TIRS), is particularly valuable for estimating LST. Google Earth Engine is a cloud-based platform for geospatial analysis, making it an ideal choice for processing Landsat data and deriving LST information.</p>
+<section id="step-1-accessing-google-earth-engine" class="level3">
+<h3 class="anchored" data-anchor-id="step-1-accessing-google-earth-engine">Step 1: Accessing Google Earth Engine</h3>
+<section id="sign-up-for-an-earth-engine-account-if-you-dont-have-one-already." class="level4">
+<h4 class="anchored" data-anchor-id="sign-up-for-an-earth-engine-account-if-you-dont-have-one-already.">1.1 <a href="https://code.earthengine.google.com/register">Sign up for an Earth Engine account</a> if you don’t have one already.</h4>
+</section>
+<section id="load-the-ee-and-geemap-libraries-in-google-colab." class="level4">
+<h4 class="anchored" data-anchor-id="load-the-ee-and-geemap-libraries-in-google-colab.">1.2 Load the <code>ee</code> and <code>geemap</code> libraries in Google Colab.</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> ee</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> geemap</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="authenticate-your-earth-engine-account-in-google-colab." class="level4">
+<h4 class="anchored" data-anchor-id="authenticate-your-earth-engine-account-in-google-colab.">1.3 Authenticate your Earth Engine account in Google Colab.</h4>
+<div class="cell" data-executioninfo="{&quot;elapsed&quot;:18657,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1710426099415,&quot;user&quot;:{&quot;displayName&quot;:&quot;Trevor K&quot;,&quot;userId&quot;:&quot;07865370292730158732&quot;},&quot;user_tz&quot;:240}" data-outputid="483da99a-efd6-47a2-e2aa-a0e5f89f1d7f">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>ee.Authenticate()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+            <style>
+                .geemap-dark {
+                    --jp-widgets-color: white;
+                    --jp-widgets-label-color: white;
+                    --jp-ui-font-color1: white;
+                    --jp-layout-color2: #454545;
+                    background-color: #383838;
+                }
+
+                .geemap-dark .jupyter-button {
+                    --jp-layout-color3: #383838;
+                }
+
+                .geemap-colab {
+                    background-color: var(--colab-primary-surface-color, white);
+                }
+
+                .geemap-colab .jupyter-button {
+                    --jp-layout-color3: var(--colab-primary-surface-color, white);
+                }
+            </style>
+            
+</div>
+</div>
+</section>
+<section id="initialize-your-session." class="level4">
+<h4 class="anchored" data-anchor-id="initialize-your-session.">1.4 Initialize your session.</h4>
+<div class="cell" data-executioninfo="{&quot;elapsed&quot;:3289,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1710426156926,&quot;user&quot;:{&quot;displayName&quot;:&quot;Trevor K&quot;,&quot;userId&quot;:&quot;07865370292730158732&quot;},&quot;user_tz&quot;:240}" data-outputid="017810d5-c8aa-4ad6-9b90-4d552ce58552">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>ee.Initialize(project<span class="op">=</span><span class="st">'remotesensing-musa6500'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+            <style>
+                .geemap-dark {
+                    --jp-widgets-color: white;
+                    --jp-widgets-label-color: white;
+                    --jp-ui-font-color1: white;
+                    --jp-layout-color2: #454545;
+                    background-color: #383838;
+                }
+
+                .geemap-dark .jupyter-button {
+                    --jp-layout-color3: #383838;
+                }
+
+                .geemap-colab {
+                    background-color: var(--colab-primary-surface-color, white);
+                }
+
+                .geemap-colab .jupyter-button {
+                    --jp-layout-color3: var(--colab-primary-surface-color, white);
+                }
+            </style>
+            
+</div>
+</div>
+</section>
+</section>
+<section id="step-2-define-the-area-of-interest-aoi" class="level3">
+<h3 class="anchored" data-anchor-id="step-2-define-the-area-of-interest-aoi">Step 2: Define the Area of Interest (AOI)</h3>
+<p>In this part of the script, an Area of Interest (AOI) is defined using the <code>ee.FeatureCollection</code> function. The AOI is obtained from the “FAO/GAUL_SIMPLIFIED_500m/2015/level1” dataset, specifically filtering for the administrative division (ADM1_NAME) named ‘Daerah Istimewa Yogyakarta.’ This effectively creates a region of interest for subsequent analysis.</p>
+<div class="cell" data-executioninfo="{&quot;elapsed&quot;:297,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1710426162999,&quot;user&quot;:{&quot;displayName&quot;:&quot;Trevor K&quot;,&quot;userId&quot;:&quot;07865370292730158732&quot;},&quot;user_tz&quot;:240}" data-outputid="fb1a4f85-8ade-4842-c7d5-f196b2cdca79">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>aoi <span class="op">=</span> ee.FeatureCollection(<span class="st">"FAO/GAUL_SIMPLIFIED_500m/2015/level1"</span>) <span class="op">\</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>        .<span class="bu">filter</span>(ee.Filter.eq(<span class="st">'ADM1_NAME'</span>, <span class="st">'Daerah Istimewa Yogyakarta'</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+            <style>
+                .geemap-dark {
+                    --jp-widgets-color: white;
+                    --jp-widgets-label-color: white;
+                    --jp-ui-font-color1: white;
+                    --jp-layout-color2: #454545;
+                    background-color: #383838;
+                }
+
+                .geemap-dark .jupyter-button {
+                    --jp-layout-color3: #383838;
+                }
+
+                .geemap-colab {
+                    background-color: var(--colab-primary-surface-color, white);
+                }
+
+                .geemap-colab .jupyter-button {
+                    --jp-layout-color3: var(--colab-primary-surface-color, white);
+                }
+            </style>
+            
+</div>
+</div>
+</section>
+<section id="step-3-import-landsat-8-data" class="level3">
+<h3 class="anchored" data-anchor-id="step-3-import-landsat-8-data">Step 3: Import Landsat 8 Data</h3>
+<section id="define-the-start-and-end-dates." class="level4">
+<h4 class="anchored" data-anchor-id="define-the-start-and-end-dates.">3.1 Define the start and end dates.</h4>
+<p>These two variables, startDate and endDate, can be used in various geospatial analyses, particularly in Google Earth Engine, to specify a specific time range for data retrieval, processing, or visualization. In this case, the time period defined by these dates spans from June 1, 2023, to September 21, 2023.</p>
+<div class="cell" data-executioninfo="{&quot;elapsed&quot;:325,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1710426164457,&quot;user&quot;:{&quot;displayName&quot;:&quot;Trevor K&quot;,&quot;userId&quot;:&quot;07865370292730158732&quot;},&quot;user_tz&quot;:240}" data-outputid="d36ae0e5-a12f-4b85-ee9a-bd32f3d1a46e">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> datetime <span class="im">import</span> datetime</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>startDate <span class="op">=</span> datetime(<span class="dv">2023</span>, <span class="dv">6</span>, <span class="dv">1</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>endDate <span class="op">=</span> datetime(<span class="dv">2023</span>, <span class="dv">9</span>, <span class="dv">21</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Format dates into strings that Earth Engine expects ("YYYY-MM-DD")</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>startDate<span class="op">=</span> startDate.strftime(<span class="st">'%Y-%m-</span><span class="sc">%d</span><span class="st">'</span>)</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>endDate_str <span class="op">=</span> endDate.strftime(<span class="st">'%Y-%m-</span><span class="sc">%d</span><span class="st">'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+            <style>
+                .geemap-dark {
+                    --jp-widgets-color: white;
+                    --jp-widgets-label-color: white;
+                    --jp-ui-font-color1: white;
+                    --jp-layout-color2: #454545;
+                    background-color: #383838;
+                }
+
+                .geemap-dark .jupyter-button {
+                    --jp-layout-color3: #383838;
+                }
+
+                .geemap-colab {
+                    background-color: var(--colab-primary-surface-color, white);
+                }
+
+                .geemap-colab .jupyter-button {
+                    --jp-layout-color3: var(--colab-primary-surface-color, white);
+                }
+            </style>
+            
+</div>
+</div>
+</section>
+<section id="apply-scaling-factors" class="level4">
+<h4 class="anchored" data-anchor-id="apply-scaling-factors">3.2 Apply scaling factors</h4>
+<p>Applying a scale factor involves adjusting pixel values in satellite imagery to ensure they represent physical properties accurately. For example, it’s used to convert digital numbers into physical units, like radiance or reflectance, making the data more meaningful for analysis.</p>
+<div class="cell" data-executioninfo="{&quot;elapsed&quot;:3,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1710426165898,&quot;user&quot;:{&quot;displayName&quot;:&quot;Trevor K&quot;,&quot;userId&quot;:&quot;07865370292730158732&quot;},&quot;user_tz&quot;:240}" data-outputid="63d8490e-891c-4e32-bd8b-a4dbd5f1ac39">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to apply scaling factors.</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> apply_scale_factors(image):</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Scale and offset values for optical bands</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    optical_bands <span class="op">=</span> image.select(<span class="st">'SR_B.'</span>).multiply(<span class="fl">0.0000275</span>).add(<span class="op">-</span><span class="fl">0.2</span>)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Scale and offset values for thermal bands</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    thermal_bands <span class="op">=</span> image.select(<span class="st">'ST_B.*'</span>).multiply(<span class="fl">0.00341802</span>).add(<span class="fl">149.0</span>)</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Add scaled bands to the original image</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> image.addBands(optical_bands, <span class="va">None</span>, <span class="va">True</span>) <span class="op">\</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>                .addBands(thermal_bands, <span class="va">None</span>, <span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+            <style>
+                .geemap-dark {
+                    --jp-widgets-color: white;
+                    --jp-widgets-label-color: white;
+                    --jp-ui-font-color1: white;
+                    --jp-layout-color2: #454545;
+                    background-color: #383838;
+                }
+
+                .geemap-dark .jupyter-button {
+                    --jp-layout-color3: #383838;
+                }
+
+                .geemap-colab {
+                    background-color: var(--colab-primary-surface-color, white);
+                }
+
+                .geemap-colab .jupyter-button {
+                    --jp-layout-color3: var(--colab-primary-surface-color, white);
+                }
+            </style>
+            
+</div>
+</div>
+</section>
+<section id="apply-cloud-masking" class="level4">
+<h4 class="anchored" data-anchor-id="apply-cloud-masking">3.3 Apply cloud masking</h4>
+<p>Cloud masking is a process to identify and remove cloud-affected pixels from satellite imagery. It’s essential for ensuring that the analysis focuses on clear and cloud-free areas, minimizing the impact of clouds and their shadows on the results.</p>
+<div class="cell" data-executioninfo="{&quot;elapsed&quot;:3,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1710426167174,&quot;user&quot;:{&quot;displayName&quot;:&quot;Trevor K&quot;,&quot;userId&quot;:&quot;07865370292730158732&quot;},&quot;user_tz&quot;:240}" data-outputid="e859ff88-b4d9-419d-da51-b3157c94ef93">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to mask clouds and cloud shadows in Landsat 8 imagery</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> cloud_mask(image):</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Define cloud shadow and cloud bitmask (Bits 3 and 5)</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    cloud_shadow_bit_mask <span class="op">=</span> <span class="dv">1</span> <span class="op">&lt;&lt;</span> <span class="dv">3</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    cloud_bit_mask <span class="op">=</span> <span class="dv">1</span> <span class="op">&lt;&lt;</span> <span class="dv">5</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Select the Quality Assessment (QA) band for pixel quality information</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    qa <span class="op">=</span> image.select(<span class="st">'QA_PIXEL'</span>)</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Create a binary mask to identify clear conditions (both cloud and cloud shadow bits set to 0)</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    mask <span class="op">=</span> qa.bitwiseAnd(cloud_shadow_bit_mask).eq(<span class="dv">0</span>) <span class="op">\</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>                .And(qa.bitwiseAnd(cloud_bit_mask).eq(<span class="dv">0</span>))</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Update the original image, masking out cloud and cloud shadow-affected pixels</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> image.updateMask(mask)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+            <style>
+                .geemap-dark {
+                    --jp-widgets-color: white;
+                    --jp-widgets-label-color: white;
+                    --jp-ui-font-color1: white;
+                    --jp-layout-color2: #454545;
+                    background-color: #383838;
+                }
+
+                .geemap-dark .jupyter-button {
+                    --jp-layout-color3: #383838;
+                }
+
+                .geemap-colab {
+                    background-color: var(--colab-primary-surface-color, white);
+                }
+
+                .geemap-colab .jupyter-button {
+                    --jp-layout-color3: var(--colab-primary-surface-color, white);
+                }
+            </style>
+            
+</div>
+</div>
+</section>
+<section id="import-landsat-8-imagery" class="level4">
+<h4 class="anchored" data-anchor-id="import-landsat-8-imagery">3.4 Import Landsat 8 imagery</h4>
+<p>Importing images involves fetching satellite or remote sensing data into a geospatial analysis platform like Google Earth Engine. After data import, creating visualization involves defining how the data should be visually represented, and specifying parameters like color bands and brightness levels for effective interpretation and analysis.</p>
+<div class="cell" data-executioninfo="{&quot;elapsed&quot;:2,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1710426168380,&quot;user&quot;:{&quot;displayName&quot;:&quot;Trevor K&quot;,&quot;userId&quot;:&quot;07865370292730158732&quot;},&quot;user_tz&quot;:240}" data-outputid="18fe219b-ea9d-457e-84e4-8b116fa51d01">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Import and preprocess Landsat 8 imagery</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>image <span class="op">=</span> ee.ImageCollection(<span class="st">"LANDSAT/LC08/C02/T1_L2"</span>) <span class="op">\</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>            .filterBounds(aoi) <span class="op">\</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>            .filterDate(startDate, endDate) <span class="op">\</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>            .<span class="bu">map</span>(apply_scale_factors) <span class="op">\</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>            .<span class="bu">map</span>(cloud_mask) <span class="op">\</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>            .median() <span class="op">\</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>            .clip(aoi)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+            <style>
+                .geemap-dark {
+                    --jp-widgets-color: white;
+                    --jp-widgets-label-color: white;
+                    --jp-ui-font-color1: white;
+                    --jp-layout-color2: #454545;
+                    background-color: #383838;
+                }
+
+                .geemap-dark .jupyter-button {
+                    --jp-layout-color3: #383838;
+                }
+
+                .geemap-colab {
+                    background-color: var(--colab-primary-surface-color, white);
+                }
+
+                .geemap-colab .jupyter-button {
+                    --jp-layout-color3: var(--colab-primary-surface-color, white);
+                }
+            </style>
+            
+</div>
+</div>
+</section>
+</section>
+<section id="step-4-calculate-ndvi-proportion-of-vegetation-and-emissivity" class="level3">
+<h3 class="anchored" data-anchor-id="step-4-calculate-ndvi-proportion-of-vegetation-and-emissivity">Step 4: Calculate NDVI, Proportion of Vegetation, and Emissivity</h3>
+<section id="step-4.1-calculate-ndvi" class="level4">
+<h4 class="anchored" data-anchor-id="step-4.1-calculate-ndvi">Step 4.1 Calculate NDVI</h4>
+<p>NDVI (Normalized Difference Vegetation Index) is a widely used vegetation index in remote sensing and environmental science. It quantifies the presence and health of vegetation based on the reflectance of visible and near-infrared light. NDVI values typically range from -1 to 1, with higher values indicating healthier or denser vegetation.</p>
+<p>NDVI is calculated using the following formula:</p>
+<p><em>NDVI=(NIR+Red)/(NIR−Red)</em>​</p>
+<ul>
+<li>NIR (Near-Infrared) is the reflectance in the near-infrared part of the electromagnetic spectrum (typically Landsat band 5 or similar).</li>
+<li>Red is the reflectance in the red part of the spectrum (typically Landsat band 4 or similar).</li>
+</ul>
+<div class="cell" data-executioninfo="{&quot;elapsed&quot;:324,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1710426169818,&quot;user&quot;:{&quot;displayName&quot;:&quot;Trevor K&quot;,&quot;userId&quot;:&quot;07865370292730158732&quot;},&quot;user_tz&quot;:240}" data-outputid="78c231cf-374d-4305-c399-c6a20666638f">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate Normalized Difference Vegetation Index (NDVI)</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>ndvi <span class="op">=</span> image.normalizedDifference([<span class="st">'SR_B5'</span>, <span class="st">'SR_B4'</span>]).rename(<span class="st">'NDVI'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+            <style>
+                .geemap-dark {
+                    --jp-widgets-color: white;
+                    --jp-widgets-label-color: white;
+                    --jp-ui-font-color1: white;
+                    --jp-layout-color2: #454545;
+                    background-color: #383838;
+                }
+
+                .geemap-dark .jupyter-button {
+                    --jp-layout-color3: #383838;
+                }
+
+                .geemap-colab {
+                    background-color: var(--colab-primary-surface-color, white);
+                }
+
+                .geemap-colab .jupyter-button {
+                    --jp-layout-color3: var(--colab-primary-surface-color, white);
+                }
+            </style>
+            
+</div>
+</div>
+</section>
+<section id="step-4.2.-calculate-minimum-and-maximum-ndvi-values" class="level4">
+<h4 class="anchored" data-anchor-id="step-4.2.-calculate-minimum-and-maximum-ndvi-values">Step 4.2. Calculate Minimum and Maximum NDVI Values</h4>
+<p>The minimum (min) and maximum (max) values of the Normalized Difference Vegetation Index (NDVI) are used to calculate the proportion of vegetation cover (PV) in the region of interest.</p>
+<p>Minimum NDVI Calculation (<code>ndviMin</code>):</p>
+<ul>
+<li>The script uses the <code>reduceRegion</code> method to calculate the minimum NDVI value within the specified AOI.</li>
+<li>The reducer parameter is set to <code>ee.Reducer.min()</code>, indicating that we want to find the minimum value.</li>
+<li>The <code>geometry</code> parameter is set to <code>aoi</code>, which defines the area of interest.</li>
+<li>The <code>scale</code> parameter sets the pixel size for the analysis to 30 meters.</li>
+<li>The <code>maxPixels</code> parameter specifies the maximum number of pixels to include in the calculation (1e9 represents one billion pixels, a large number to cover extensive areas).</li>
+</ul>
+<p>Maximum NDVI Calculation (<code>ndviMax</code>):</p>
+<ul>
+<li>Similarly, this part of the script calculates the maximum NDVI value within the same AOI.</li>
+<li>It uses <code>ee.Reducer.max()</code> as the reducer to find the maximum value.</li>
+</ul>
+<div class="cell" data-executioninfo="{&quot;elapsed&quot;:21916,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1710426193075,&quot;user&quot;:{&quot;displayName&quot;:&quot;Trevor K&quot;,&quot;userId&quot;:&quot;07865370292730158732&quot;},&quot;user_tz&quot;:240}" data-outputid="8716f84c-a70e-48e6-e659-9877a430e4ba">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate the minimum and maximum NDVI values within the AOI</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>ndvi_min <span class="op">=</span> ndvi.reduceRegion(</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    reducer<span class="op">=</span>ee.Reducer.<span class="bu">min</span>(),</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    geometry<span class="op">=</span>aoi,</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    scale<span class="op">=</span><span class="dv">30</span>,</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    maxPixels<span class="op">=</span><span class="fl">1e9</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>).get(<span class="st">'NDVI'</span>).getInfo()</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>ndvi_max <span class="op">=</span> ndvi.reduceRegion(</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>    reducer<span class="op">=</span>ee.Reducer.<span class="bu">max</span>(),</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>    geometry<span class="op">=</span>aoi,</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>    scale<span class="op">=</span><span class="dv">30</span>,</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>    maxPixels<span class="op">=</span><span class="fl">1e9</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>).get(<span class="st">'NDVI'</span>).getInfo()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+            <style>
+                .geemap-dark {
+                    --jp-widgets-color: white;
+                    --jp-widgets-label-color: white;
+                    --jp-ui-font-color1: white;
+                    --jp-layout-color2: #454545;
+                    background-color: #383838;
+                }
+
+                .geemap-dark .jupyter-button {
+                    --jp-layout-color3: #383838;
+                }
+
+                .geemap-colab {
+                    background-color: var(--colab-primary-surface-color, white);
+                }
+
+                .geemap-colab .jupyter-button {
+                    --jp-layout-color3: var(--colab-primary-surface-color, white);
+                }
+            </style>
+            
+</div>
+</div>
+</section>
+<section id="step-4.3.-calculate-proportion-of-vegetation-pv-and-emissivity-em" class="level4">
+<h4 class="anchored" data-anchor-id="step-4.3.-calculate-proportion-of-vegetation-pv-and-emissivity-em">Step 4.3. Calculate Proportion of Vegetation (PV) and Emissivity (EM)</h4>
+<p>The proportion of vegetation cover is calculated using the following formula:</p>
+<p><em>Proportion of Vegetation (PV) = (NDVI — NDVI_min) / (NDVI_max — NDVI_min)</em></p>
+<p>Where:</p>
+<ul>
+<li>NDVI represents the pixel’s NDVI value.</li>
+<li>NDVI_min is the minimum NDVI value specified.</li>
+<li>NDVI_max is the maximum NDVI value specified.</li>
+</ul>
+<p>The Proportion of Vegetation (PV) is a metric used to quantify the relative abundance of vegetation within a specified area by analyzing Normalized Difference Vegetation Index (NDVI) values. It provides valuable insights into land cover and ecosystem health, with higher PV values indicating a greater presence of vegetation. On the other hand, Emissivity (EM) is a critical parameter for accurate Land Surface Temperature (LST) calculations. In the provided code, EM is computed as a function of PV, reflecting how efficiently a surface emits thermal radiation. EM values near 1.0 are typical for natural surfaces like soil and vegetation, while lower values are often associated with water bodies or urban areas. Both PV and EM play essential roles in remote sensing and environmental studies, contributing to a more comprehensive understanding of land characteristics and thermal behavior.</p>
+<div class="cell" data-executioninfo="{&quot;elapsed&quot;:18,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1710426193075,&quot;user&quot;:{&quot;displayName&quot;:&quot;Trevor K&quot;,&quot;userId&quot;:&quot;07865370292730158732&quot;},&quot;user_tz&quot;:240}" data-outputid="029f2d3c-22da-47d9-a769-4ef391c5b321">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert NDVI_min and NDVI_max to ee.Number for operations</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>ndvi_min <span class="op">=</span> ee.Number(ndvi_min)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>ndvi_max <span class="op">=</span> ee.Number(ndvi_max)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Fraction of Vegetation (FV) Calculation</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Formula: ((NDVI - NDVI_min) / (NDVI_max - NDVI_min))^2</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>fv <span class="op">=</span> ndvi.subtract(ndvi_min).divide(ndvi_max.subtract(ndvi_min)).<span class="bu">pow</span>(<span class="dv">2</span>).rename(<span class="st">'FV'</span>)</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Emissivity Calculation</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Formula: 0.004 * FV + 0.986</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>em <span class="op">=</span> fv.multiply(<span class="fl">0.004</span>).add(<span class="fl">0.986</span>).rename(<span class="st">'EM'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+            <style>
+                .geemap-dark {
+                    --jp-widgets-color: white;
+                    --jp-widgets-label-color: white;
+                    --jp-ui-font-color1: white;
+                    --jp-layout-color2: #454545;
+                    background-color: #383838;
+                }
+
+                .geemap-dark .jupyter-button {
+                    --jp-layout-color3: #383838;
+                }
+
+                .geemap-colab {
+                    background-color: var(--colab-primary-surface-color, white);
+                }
+
+                .geemap-colab .jupyter-button {
+                    --jp-layout-color3: var(--colab-primary-surface-color, white);
+                }
+            </style>
+            
+</div>
+</div>
+</section>
+</section>
+<section id="step-5-estimate-land-surface-temperature-lst" class="level3">
+<h3 class="anchored" data-anchor-id="step-5-estimate-land-surface-temperature-lst">Step 5: Estimate Land Surface Temperature (LST)</h3>
+<p>Select Thermal Band: In this section, the script selects the thermal band (Band 10) from the input image and renames it as ‘thermal’. This band contains thermal infrared information.</p>
+<div class="cell" data-executioninfo="{&quot;elapsed&quot;:9,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1710426193075,&quot;user&quot;:{&quot;displayName&quot;:&quot;Trevor K&quot;,&quot;userId&quot;:&quot;07865370292730158732&quot;},&quot;user_tz&quot;:240}" data-outputid="f76d2b51-dd5d-45f7-ae6e-172f05d6c700">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Select Thermal Band (Band 10) and Rename It</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>thermal <span class="op">=</span> image.select(<span class="st">'ST_B10'</span>).rename(<span class="st">'thermal'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+            <style>
+                .geemap-dark {
+                    --jp-widgets-color: white;
+                    --jp-widgets-label-color: white;
+                    --jp-ui-font-color1: white;
+                    --jp-layout-color2: #454545;
+                    background-color: #383838;
+                }
+
+                .geemap-dark .jupyter-button {
+                    --jp-layout-color3: #383838;
+                }
+
+                .geemap-colab {
+                    background-color: var(--colab-primary-surface-color, white);
+                }
+
+                .geemap-colab .jupyter-button {
+                    --jp-layout-color3: var(--colab-primary-surface-color, white);
+                }
+            </style>
+            
+</div>
+</div>
+<p>The script calculates Land Surface Temperature (LST) using Planck’s Law. The formula is provided as a mathematical expression. It involves using the thermal band (TB) and emissivity (em) values to compute LST.</p>
+<div class="cell" data-executioninfo="{&quot;elapsed&quot;:8,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1710426193075,&quot;user&quot;:{&quot;displayName&quot;:&quot;Trevor K&quot;,&quot;userId&quot;:&quot;07865370292730158732&quot;},&quot;user_tz&quot;:240}" data-outputid="2480cb94-215e-4612-99cc-3616bf1a2152">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Land Surface Temperature (LST) Calculation</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Formula: (TB / (1 + (λ * (TB / 1.438)) * log(em))) - 273.15</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>lst <span class="op">=</span> thermal.expression(</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">'(TB / (1 + (0.00115 * (TB / 1.438)) * log(em))) - 273.15'</span>,</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    {</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>        <span class="st">'TB'</span>: thermal.select(<span class="st">'thermal'</span>),  <span class="co"># Thermal band as the temperature in Kelvin</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>        <span class="st">'em'</span>: em  <span class="co"># Emissivity</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>).rename(<span class="st">'LST Yogyakarta 2023'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+            <style>
+                .geemap-dark {
+                    --jp-widgets-color: white;
+                    --jp-widgets-label-color: white;
+                    --jp-ui-font-color1: white;
+                    --jp-layout-color2: #454545;
+                    background-color: #383838;
+                }
+
+                .geemap-dark .jupyter-button {
+                    --jp-layout-color3: #383838;
+                }
+
+                .geemap-colab {
+                    background-color: var(--colab-primary-surface-color, white);
+                }
+
+                .geemap-colab .jupyter-button {
+                    --jp-layout-color3: var(--colab-primary-surface-color, white);
+                }
+            </style>
+            
+</div>
+</div>
+</section>
+<section id="step-6-map-results-with-custom-title-and-legend" class="level3">
+<h3 class="anchored" data-anchor-id="step-6-map-results-with-custom-title-and-legend">Step 6: Map Results with Custom Title and Legend</h3>
+<p>Now, we can combine our results with custom visualizations to view them on the map. (This can be done step-by-step throughout the script or at the end.)</p>
+<p>First, we initialize a map using the <code>geemap</code> package. We add our AOI to it as a black line using an empty palette and center the map on our AOI.</p>
+<div class="cell" data-executioninfo="{&quot;elapsed&quot;:2509,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1710426195576,&quot;user&quot;:{&quot;displayName&quot;:&quot;Trevor K&quot;,&quot;userId&quot;:&quot;07865370292730158732&quot;},&quot;user_tz&quot;:240}" data-outputid="a8cd8c5b-e80b-4899-e0cc-ea48d77290e2">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>Map <span class="op">=</span> geemap.Map() <span class="co"># initialize a map</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>Map.addLayer(aoi, {}, <span class="st">'AOI - Yogyakarta'</span>)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>Map.centerObject(aoi, <span class="dv">10</span>) <span class="co"># center the map on the aoi</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+            <style>
+                .geemap-dark {
+                    --jp-widgets-color: white;
+                    --jp-widgets-label-color: white;
+                    --jp-ui-font-color1: white;
+                    --jp-layout-color2: #454545;
+                    background-color: #383838;
+                }
+
+                .geemap-dark .jupyter-button {
+                    --jp-layout-color3: #383838;
+                }
+
+                .geemap-colab {
+                    background-color: var(--colab-primary-surface-color, white);
+                }
+
+                .geemap-colab .jupyter-button {
+                    --jp-layout-color3: var(--colab-primary-surface-color, white);
+                }
+            </style>
+            
+</div>
+</div>
+<p>Next, we add our true color imagery to the map.</p>
+<div class="cell" data-executioninfo="{&quot;elapsed&quot;:436,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1710426196008,&quot;user&quot;:{&quot;displayName&quot;:&quot;Trevor K&quot;,&quot;userId&quot;:&quot;07865370292730158732&quot;},&quot;user_tz&quot;:240}" data-outputid="467a48ea-5666-479b-9c5c-6d0e88954763">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define visualization parameters for True Color imagery (bands 4, 3, and 2)</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>visualization <span class="op">=</span> {</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">'bands'</span>: [<span class="st">'SR_B4'</span>, <span class="st">'SR_B3'</span>, <span class="st">'SR_B2'</span>],</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">'min'</span>: <span class="fl">0.0</span>,</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">'max'</span>: <span class="fl">0.15</span>,</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Add the processed image to the map with the specified visualization</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>Map.addLayer(image, visualization, <span class="st">'True Color 432'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+            <style>
+                .geemap-dark {
+                    --jp-widgets-color: white;
+                    --jp-widgets-label-color: white;
+                    --jp-ui-font-color1: white;
+                    --jp-layout-color2: #454545;
+                    background-color: #383838;
+                }
+
+                .geemap-dark .jupyter-button {
+                    --jp-layout-color3: #383838;
+                }
+
+                .geemap-colab {
+                    background-color: var(--colab-primary-surface-color, white);
+                }
+
+                .geemap-colab .jupyter-button {
+                    --jp-layout-color3: var(--colab-primary-surface-color, white);
+                }
+            </style>
+            
+</div>
+</div>
+<p>We add the NDVI layer, too.</p>
+<div class="cell" data-executioninfo="{&quot;elapsed&quot;:598,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1710426196602,&quot;user&quot;:{&quot;displayName&quot;:&quot;Trevor K&quot;,&quot;userId&quot;:&quot;07865370292730158732&quot;},&quot;user_tz&quot;:240}" data-outputid="ab0aee18-12a8-4146-a50c-9617fd2e17c9">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define NDVI Visualization Parameters</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>ndviPalette <span class="op">=</span> {</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a> <span class="st">'min'</span>: <span class="op">-</span><span class="dv">1</span>,</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a> <span class="st">'max'</span>: <span class="dv">1</span>,</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a> <span class="st">'palette'</span>: [<span class="st">'blue'</span>, <span class="st">'white'</span>, <span class="st">'green'</span>]</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>Map.addLayer(ndvi, ndviPalette, <span class="st">'NDVI Yogyakarta'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+            <style>
+                .geemap-dark {
+                    --jp-widgets-color: white;
+                    --jp-widgets-label-color: white;
+                    --jp-ui-font-color1: white;
+                    --jp-layout-color2: #454545;
+                    background-color: #383838;
+                }
+
+                .geemap-dark .jupyter-button {
+                    --jp-layout-color3: #383838;
+                }
+
+                .geemap-colab {
+                    background-color: var(--colab-primary-surface-color, white);
+                }
+
+                .geemap-colab .jupyter-button {
+                    --jp-layout-color3: var(--colab-primary-surface-color, white);
+                }
+            </style>
+            
+</div>
+</div>
+<p>Finally, we add the LST layer with a custom pallete and visualize the map with a custom title and legend.</p>
+<div class="cell" data-outputid="7fa1447a-be4c-49f8-a19f-012618ee7860">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualization parameters for LST</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>lst_vis_params <span class="op">=</span> {</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'min'</span>: <span class="fl">18.47</span>,</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">'max'</span>: <span class="fl">42.86</span>,</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">'palette'</span>: [</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>        <span class="st">'040274'</span>, <span class="st">'040281'</span>, <span class="st">'0502a3'</span>, <span class="st">'0502b8'</span>, <span class="st">'0502ce'</span>, <span class="st">'0502e6'</span>,</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>        <span class="st">'0602ff'</span>, <span class="st">'235cb1'</span>, <span class="st">'307ef3'</span>, <span class="st">'269db1'</span>, <span class="st">'30c8e2'</span>, <span class="st">'32d3ef'</span>,</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>        <span class="st">'3be285'</span>, <span class="st">'3ff38f'</span>, <span class="st">'86e26f'</span>, <span class="st">'3ae237'</span>, <span class="st">'b5e22e'</span>, <span class="st">'d6e21f'</span>,</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>        <span class="st">'fff705'</span>, <span class="st">'ffd611'</span>, <span class="st">'ffb613'</span>, <span class="st">'ff8b13'</span>, <span class="st">'ff6e08'</span>, <span class="st">'ff500d'</span>,</span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>        <span class="st">'ff0000'</span>, <span class="st">'de0101'</span>, <span class="st">'c21301'</span>, <span class="st">'a71001'</span>, <span class="st">'911003'</span></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>    ]</span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Add the LST layer to the map with custom visualization parameters</span></span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>Map.addLayer(lst, lst_vis_params, <span class="st">'Land Surface Temperature 2023'</span>)</span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the color palette for the legend (updated to include the missing color '210300')</span></span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a>palette <span class="op">=</span> [</span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a>    <span class="st">'040274'</span>, <span class="st">'040281'</span>, <span class="st">'0502a3'</span>, <span class="st">'0502b8'</span>, <span class="st">'0502ce'</span>, <span class="st">'0502e6'</span>,</span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a>    <span class="st">'0602ff'</span>, <span class="st">'235cb1'</span>, <span class="st">'307ef3'</span>, <span class="st">'269db1'</span>, <span class="st">'30c8e2'</span>, <span class="st">'32d3ef'</span>,</span>
+<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a>    <span class="st">'3be285'</span>, <span class="st">'3ff38f'</span>, <span class="st">'86e26f'</span>, <span class="st">'3ae237'</span>, <span class="st">'b5e22e'</span>, <span class="st">'d6e21f'</span>,</span>
+<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a>    <span class="st">'fff705'</span>, <span class="st">'ffd611'</span>, <span class="st">'ffb613'</span>, <span class="st">'ff8b13'</span>, <span class="st">'ff6e08'</span>, <span class="st">'ff500d'</span>,</span>
+<span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a>    <span class="st">'ff0000'</span>, <span class="st">'de0101'</span>, <span class="st">'c21301'</span>, <span class="st">'a71001'</span>, <span class="st">'911003'</span>, <span class="st">'210300'</span></span>
+<span id="cb17-24"><a href="#cb17-24" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb17-25"><a href="#cb17-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-26"><a href="#cb17-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert hex colors to the format required by the add_legend method</span></span>
+<span id="cb17-27"><a href="#cb17-27" aria-hidden="true" tabindex="-1"></a>legend_colors <span class="op">=</span> [<span class="st">'#'</span> <span class="op">+</span> color <span class="cf">for</span> color <span class="kw">in</span> palette]</span>
+<span id="cb17-28"><a href="#cb17-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-29"><a href="#cb17-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate the legend keys based on the number of colors</span></span>
+<span id="cb17-30"><a href="#cb17-30" aria-hidden="true" tabindex="-1"></a><span class="co"># Assuming minLST and maxLST represent the range of your data</span></span>
+<span id="cb17-31"><a href="#cb17-31" aria-hidden="true" tabindex="-1"></a>minLST, maxLST <span class="op">=</span> <span class="dv">15</span>, <span class="dv">45</span></span>
+<span id="cb17-32"><a href="#cb17-32" aria-hidden="true" tabindex="-1"></a>legend_keys <span class="op">=</span> [<span class="bu">str</span>(<span class="bu">round</span>(minLST <span class="op">+</span> i <span class="op">*</span> (maxLST <span class="op">-</span> minLST) <span class="op">/</span> (<span class="bu">len</span>(palette) <span class="op">-</span> <span class="dv">1</span>), <span class="dv">2</span>)) <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(palette))]</span>
+<span id="cb17-33"><a href="#cb17-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-34"><a href="#cb17-34" aria-hidden="true" tabindex="-1"></a><span class="co"># Add the custom legend to the map</span></span>
+<span id="cb17-35"><a href="#cb17-35" aria-hidden="true" tabindex="-1"></a>Map.add_legend(keys<span class="op">=</span>legend_keys, colors<span class="op">=</span>legend_colors, position<span class="op">=</span><span class="st">'bottomright'</span>)</span>
+<span id="cb17-36"><a href="#cb17-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-37"><a href="#cb17-37" aria-hidden="true" tabindex="-1"></a><span class="co"># Set the center of the map (Example coordinates for Yogyakarta)</span></span>
+<span id="cb17-38"><a href="#cb17-38" aria-hidden="true" tabindex="-1"></a>Map.set_center(<span class="fl">110.3668</span>, <span class="op">-</span><span class="fl">7.8032</span>, <span class="dv">10</span>)</span>
+<span id="cb17-39"><a href="#cb17-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-40"><a href="#cb17-40" aria-hidden="true" tabindex="-1"></a><span class="co"># Display the map</span></span>
+<span id="cb17-41"><a href="#cb17-41" aria-hidden="true" tabindex="-1"></a>Map</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id":"9f42cd530cb541fdbe1fd5f633ef1d62","version_major":2,"version_minor":0,"quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
+</script>
+</div>
+<div class="cell-output cell-output-display">
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id":"b5986a5424644e4a869de52b772cb6f1","version_major":2,"version_minor":0,"quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
+</script>
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">© CC-Trevor Kapuvari, 2024</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">This page is built with 1s and 0s and <a href="https://quarto.org/">Quarto</a>.</div>
+  </div>
+</footer>
+
+
+
+</body></html>
