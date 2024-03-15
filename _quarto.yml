@@ -43,9 +43,9 @@ website:
           - analysis/RFvsSKL.ipynb
       - section: RemoteSensing/index.qmd
         contents:
-          - RemoteSensing/Assignment2Kapuvari.ipynb
-          - RemoteSensing/assignment-5.ipynb
-          - RemoteSensing/assignment-5.ipynb
+          - RemoteSensing/national_landcover_supervised_classification.ipynb
+          - RemoteSensing/land_surface_temperature.ipynb
+          - RemoteSensing/national_landcover_supervised_classification.ipynb
       - section: SpatialOptimization/index.qmd
         contents:
           - SpatialOptimization/pdispersion.py
