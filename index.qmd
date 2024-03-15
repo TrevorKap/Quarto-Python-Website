@@ -17,7 +17,7 @@ My other projects & experience can be found [on my Portfolio](https://trevorkap.
 * General: Pandas, Geopandas
 * Visualization: Matploblib, Altair, Seaborn, Datashader
 * Webscrapping: Selenium, BeautifulSoup, Requests
-* Geospatial Analysis: Cenpy, Pygris, OSMnx
+* Geospatial Analysis: Cenpy, Pygris, OSMnx, Google Earth Engine
 * Machine Learning: scikit-learn, RandomForest
 * Artificial Intelligence: Huggingface, Tensorflow
 
