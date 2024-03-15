@@ -50,7 +50,6 @@ website:
         contents:
           - SpatialOptimization/pdispersion.py
           - SpatialOptimization/p_median_with_pulp.ipynb
-          - SpatialOptimization/capacitatedPmedian.ipynb
           - SpatialOptimization/Knapsack_Example.ipynb
           - SpatialOptimization/CoverageMatrix.ipynb
 
