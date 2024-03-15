@@ -1,4 +1,4 @@
-# Spatal Optimization
+# Spatial Optimization
 
 This section includes examples of spatial optimization.
 Each sub-section highlights different types of analyses and visualizations.
