@@ -52,7 +52,6 @@ website:
           - SpatialOptimization/capacitatedPmedian.ipynb
           - SpatialOptimization/p_median_with_pulp.ipynb
           - SpatialOptimization/Knapsack_Example.ipynb
-          - SpatialOptimization/CoverageMatrix.ipynb
 
 format:
   html:
