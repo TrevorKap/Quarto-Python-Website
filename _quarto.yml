@@ -41,6 +41,14 @@ website:
           - analysis/predictionmodelling.ipynb
           - analysis/streetsandwebscrap.ipynb
           - analysis/RFvsSKL.ipynb
+      - section: RemoteSensing/index.qmd
+        contents:
+          - RemoteSensing/Assignment2Kapuvari.ipynb
+          - RemoteSensing/assignment-5.ipynb
+          - RemoteSensing/assignment-5.ipynb
+      - section: SpatialOptimization/index.qmd
+        contents:
+          - SpatialOptimization/pdispersion.py
 
 format:
   html:
