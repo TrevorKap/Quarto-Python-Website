@@ -49,6 +49,7 @@ website:
       - section: SpatialOptimization/index.qmd
         contents:
           - SpatialOptimization/pdispersion.py
+          - SpatialOptimization/capacitatedPmedian.ipynb
           - SpatialOptimization/p_median_with_pulp.ipynb
           - SpatialOptimization/Knapsack_Example.ipynb
           - SpatialOptimization/CoverageMatrix.ipynb
