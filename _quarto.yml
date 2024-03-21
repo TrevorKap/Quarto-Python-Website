@@ -45,7 +45,7 @@ website:
         contents:
           - RemoteSensing/national_landcover_supervised_classification.ipynb
           - RemoteSensing/land_surface_temperature.ipynb
-          - RemoteSensing/national_landcover_supervised_classification.ipynb
+          - RemoteSensing/Forest_buildings_removed_dem_error.ipynb
       - section: SpatialOptimization/index.qmd
         contents:
           - SpatialOptimization/pdispersion.py
