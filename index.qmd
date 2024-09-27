@@ -10,7 +10,7 @@ This website is dedicated to my previous works in Python.
 Python is one of the many tools I've used for spatial and data visualizations, programming, and machine learning. Yet this site is only a fraction of the work I've done in the geospatial sciences atmosphere. 
 One notable project using pythion was a [cluster analysis on Philadelphia's amenity landscape](https://luckylaharltim.github.io/MUSA_5500_Final/). The project was highlighted at [Wharton-Weitzman Future of Cities Conference 2024](https://www.linkedin.com/feed/update/urn:li:activity:7161942272912125952/)
 
-My other projects & experience can be found [on my Portfolio](https://trevorkap.github.io/Portfolio-Page/) or [on my Resume](https://drive.google.com/file/d/1s20csw_YlE92LhpNQgCxYG2uqU3rsgzv/view).
+My other projects & experience can be found [on my Portfolio](https://trevorkap.github.io/Portfolio-Page/) or [on my Resume](https://drive.google.com/file/d/14vPgLwm34TPIWcCBJ501Yjjz1hvbc-hP/view?usp=sharing).
 
 ## Overview of Python Package Experience
 
