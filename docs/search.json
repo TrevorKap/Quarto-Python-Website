@@ -242,7 +242,7 @@
     "href": "index.html#overview-of-python-package-experience",
     "title": "Trevor Kapuvari’s Python Page",
     "section": "Overview of Python Package Experience",
-    "text": "Overview of Python Package Experience\n\nGeneral: Pandas, Geopandas\nVisualization: Matploblib, Altair, Seaborn, Datashader\nWebscrapping: Selenium, BeautifulSoup, Requests\nGeospatial Analysis: Cenpy, Pygris, OSMnx, Google Earth Engine\nMachine Learning: scikit-learn, RandomForest\nArtificial Intelligence: Huggingface, Tensorflow"
+    "text": "Overview of Python Package Experience\nPackages & Libraries Used * General: Pandas, Geopandas, Numpy * Visualization: Matploblib, Altair, Seaborn, Datashader * Webscrapping: Selenium, BeautifulSoup, Requests * Geospatial Analysis: Cenpy, Pygris, OSMnx, Google Earth Engine * Machine Learning: scikit-learn, Huggingface, Tensorflow, Keras"
   },
   {
     "objectID": "RemoteSensing/index.html",
