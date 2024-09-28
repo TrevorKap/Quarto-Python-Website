@@ -14,12 +14,14 @@ My other projects & experience can be found [on my Portfolio](https://trevorkap.
 
 ## Overview of Python Package Experience
 
-* General: Pandas, Geopandas
+Packages & Libraries Used
+* General: Pandas, Geopandas, Numpy
 * Visualization: Matploblib, Altair, Seaborn, Datashader
 * Webscrapping: Selenium, BeautifulSoup, Requests
 * Geospatial Analysis: Cenpy, Pygris, OSMnx, Google Earth Engine
-* Machine Learning: scikit-learn, RandomForest
-* Artificial Intelligence: Huggingface, Tensorflow
+* Machine Learning: scikit-learn, Huggingface, Tensorflow, Keras
+ 
+
 
 
 
